@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Task List</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="page">
+    <div class="card">
+
+      <!-- Header -->
+      <div class="header">
+        <div class="header-line"></div>
+        <h1>TASK LIST</h1>
+        <div class="header-line"></div>
+      </div>
+      <p class="tagline">Organise your day with intention</p>
+
+      <!-- Notification -->
+      <div class="notification hidden" id="notification">
+        <span id="notifText"></span>
+      </div>
+
+      <!-- Input Row -->
+      <div class="input-row">
+        <input
+          type="text"
+          id="taskInput"
+          placeholder="Enter a new task..."
+          maxlength="80"
+        />
+        <button id="addBtn">ADD</button>
+      </div>
+
+      <!-- Filter Row -->
+      <div class="filter-row">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="active">Active</button>
+        <button class="filter-btn" data-filter="completed">Done</button>
+        <button id="clearBtn">Clear Done</button>
+      </div>
+
+      <!-- Divider -->
+      <div class="divider"></div>
+
+      <!-- Stats -->
+      <p class="stats" id="statsText">No tasks yet</p>
+
+      <!-- Task List -->
+      <ul id="taskList"></ul>
+
+      <!-- Empty State -->
+      <p class="empty" id="emptyMsg">No tasks to show.</p>
+
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+
+</body>
+</html>
