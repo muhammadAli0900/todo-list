@@ -1,19 +1,12 @@
-// ============================================================
-//  app.js  — To-Do List Logic
-// ============================================================
+// todo list js file
 
-
-// ============================================================
-//  1. STATE — one array holds all tasks
-//  Each task: { id: number, text: string, completed: boolean }
-// ============================================================
+// this array holds all the tasks
+// idk maybe i should use localstorage later
 var tasks = [];
 var currentFilter = 'all';
 
 
-// ============================================================
-//  2. GET DOM ELEMENTS
-// ============================================================
+// getting all the elements from html
 var taskInput  = document.getElementById('taskInput');
 var addBtn     = document.getElementById('addBtn');
 var taskList   = document.getElementById('taskList');
@@ -25,38 +18,31 @@ var clearBtn   = document.getElementById('clearBtn');
 var filterBtns = document.querySelectorAll('.filter-btn');
 
 
-// ============================================================
-//  3. SHOW NOTIFICATION
-//  Shows a banner message, then hides it after 2.5 seconds.
-//  CSS transition handles the smooth slide in/out.
-// ============================================================
+// shows a small popup message then hides it after 2.5 sec
 function showNotification(message) {
   notifText.textContent = message;
-  notif.classList.remove('hidden');      // Show it (CSS transition plays)
+  notif.classList.remove('hidden');      // make it visible
 
   setTimeout(function() {
-    notif.classList.add('hidden');       // Hide after 2.5 seconds
+    notif.classList.add('hidden');       // hide it again
   }, 2500);
 }
 
 
-// ============================================================
-//  4. RENDER TASKS
-//  Clears the list and redraws based on current filter.
-//  Called every time tasks change.
-// ============================================================
+// this function redraws the whole list
+// have to call it every time something changes
 function renderTasks() {
-  // Filter which tasks to show
+  // filter based on what tab is selected
   var toShow = tasks.filter(function(task) {
     if (currentFilter === 'active')    return !task.completed;
     if (currentFilter === 'completed') return  task.completed;
-    return true; // 'all'
+    return true; // show everything
   });
 
-  // Clear existing task items
+  // clear whatever was there before
   taskList.innerHTML = '';
 
-  // Show/hide the empty message
+  // show empty message if nothing to display
   if (toShow.length === 0) {
     emptyMsg.classList.remove('hidden');
     if (tasks.length === 0) {
@@ -67,7 +53,7 @@ function renderTasks() {
   } else {
     emptyMsg.classList.add('hidden');
 
-    // Build one <li> for each task
+    // loop and create a list item for each task
     for (var i = 0; i < toShow.length; i++) {
       var task = toShow[i];
 
@@ -75,18 +61,18 @@ function renderTasks() {
       li.className = 'task-item' + (task.completed ? ' completed' : '');
       li.setAttribute('data-id', task.id);
 
-      // Checkbox
+      // the little checkbox circle thing
       var cb = document.createElement('div');
       cb.className = 'checkbox';
       cb.setAttribute('data-id', task.id);
       if (task.completed) cb.textContent = '✓';
 
-      // Text
+      // the actual task text
       var span = document.createElement('span');
       span.className = 'task-text';
       span.textContent = task.text;
 
-      // Delete button
+      // x button to delete
       var del = document.createElement('button');
       del.className = 'del-btn';
       del.setAttribute('data-id', task.id);
@@ -100,7 +86,7 @@ function renderTasks() {
     }
   }
 
-  // Update stats line
+  // show the count at the bottom
   var total     = tasks.length;
   var done      = tasks.filter(function(t) { return t.completed; }).length;
   var remaining = total - done;
@@ -114,12 +100,11 @@ function renderTasks() {
 }
 
 
-// ============================================================
-//  5. ADD TASK
-// ============================================================
+// adds a new task to the list
 function addTask() {
   var text = taskInput.value.trim();
 
+  // dont add if input is empty
   if (text === '') {
     showNotification('Please enter a task before adding.');
     taskInput.focus();
@@ -127,7 +112,7 @@ function addTask() {
   }
 
   var newTask = {
-    id:        Date.now(),    // unique number based on current time
+    id:        Date.now(),    // using timestamp as id, seems to work
     text:      text,
     completed: false
   };
@@ -141,9 +126,7 @@ function addTask() {
 }
 
 
-// ============================================================
-//  6. TOGGLE COMPLETE
-// ============================================================
+// toggle between done and not done
 function toggleTask(id) {
   for (var i = 0; i < tasks.length; i++) {
     if (tasks[i].id === id) {
@@ -157,23 +140,20 @@ function toggleTask(id) {
 }
 
 
-// ============================================================
-//  7. DELETE TASK
-//  Adds .removing class first (triggers CSS slide-out animation),
-//  then removes from array after animation ends (0.25s).
-// ============================================================
+// removes a task
+// does a small animation before actually deleting it
 function deleteTask(id) {
   var taskText = '';
   for (var i = 0; i < tasks.length; i++) {
     if (tasks[i].id === id) { taskText = tasks[i].text; break; }
   }
 
-  // Find the <li> and animate it out
+  // find the element and animate it out
   var li = taskList.querySelector('[data-id="' + id + '"]');
   if (li) {
     li.classList.add('removing');
     setTimeout(function() {
-      // Remove from array after animation
+      // now remove from the array after animation
       tasks = tasks.filter(function(t) { return t.id !== id; });
       showNotification('"' + taskText + '" has been removed.');
       renderTasks();
@@ -182,9 +162,7 @@ function deleteTask(id) {
 }
 
 
-// ============================================================
-//  8. CLEAR ALL COMPLETED
-// ============================================================
+// removes all completed tasks at once
 function clearCompleted() {
   var count = tasks.filter(function(t) { return t.completed; }).length;
   if (count === 0) {
@@ -197,24 +175,22 @@ function clearCompleted() {
 }
 
 
-// ============================================================
-//  9. EVENT LISTENERS
-// ============================================================
+// all the event listeners below
 
-// Add button click
+// when add button is clicked
 addBtn.addEventListener('click', function() {
   addTask();
 });
 
-// Enter key in input
+// also add on enter key
 taskInput.addEventListener('keydown', function(e) {
   if (e.key === 'Enter') {
     addTask();
   }
 });
 
-// Clicks inside the task list (checkbox OR delete button)
-// This is called Event Delegation — one listener handles all tasks
+// one listener for the whole list, checks what was clicked
+// learned this trick, its called event delegation
 taskList.addEventListener('click', function(e) {
   var target = e.target;
   var id = parseInt(target.getAttribute('data-id'));
@@ -228,7 +204,7 @@ taskList.addEventListener('click', function(e) {
   }
 });
 
-// Filter buttons
+// filter buttons (all / active / completed)
 filterBtns.forEach(function(btn) {
   btn.addEventListener('click', function() {
     filterBtns.forEach(function(b) { b.classList.remove('active'); });
@@ -238,13 +214,11 @@ filterBtns.forEach(function(btn) {
   });
 });
 
-// Clear completed
+// clear completed button
 clearBtn.addEventListener('click', function() {
   clearCompleted();
 });
 
 
-// ============================================================
-//  10. INITIAL RENDER — runs once when page loads
-// ============================================================
+// call once so the empty state shows on load
 renderTasks();

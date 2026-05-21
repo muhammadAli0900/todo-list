@@ -1,8 +1,5 @@
-/* ===========================
-   CSS VARIABLES
-   Old Money palette:
-   deep forest green, warm cream, aged gold
-=========================== */
+/* color variables, keeps things consistent
+   going for like an old classy look with green and gold */
 :root {
   --bg:         #ede8de;
   --card:       #faf7f1;
@@ -20,18 +17,14 @@
   --font:       'Georgia', 'Times New Roman', serif;
 }
 
-/* ===========================
-   RESET
-=========================== */
+/* reset so browser doesnt add weird margins */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-/* ===========================
-   BODY
-=========================== */
+/* body styles, centering the whole thing */
 body {
   background-color: var(--bg);
   font-family: var(--font);
@@ -40,7 +33,7 @@ body {
   align-items: flex-start;
   justify-content: center;
   padding: 48px 16px 80px;
-  /* Subtle linen texture via repeating gradient */
+  /* this gradient gives it a subtle texture, found it online */
   background-image: repeating-linear-gradient(
     0deg,
     transparent,
@@ -50,17 +43,13 @@ body {
   );
 }
 
-/* ===========================
-   PAGE WRAPPER
-=========================== */
+/* wrapper to limit how wide the page gets */
 .page {
   width: 100%;
   max-width: 520px;
 }
 
-/* ===========================
-   CARD
-=========================== */
+/* the main white card in the middle */
 .card {
   background: var(--card);
   border: 1px solid var(--border-dark);
@@ -68,18 +57,16 @@ body {
   box-shadow: 0 2px 12px rgba(30,58,47,0.08), 0 8px 32px rgba(30,58,47,0.06);
 }
 
-/* ===========================
-   HEADER
-=========================== */
+/* header with the title and decorative lines on the sides */
 .header {
-  display: flex;           /* Flexbox: puts lines and title in a row */
+  display: flex;           /* flexbox to put the lines and title side by side */
   align-items: center;
   gap: 16px;
   margin-bottom: 8px;
 }
 
 .header-line {
-  flex: 1;                 /* Each line stretches to fill space */
+  flex: 1;                 /* stretches to fill remaining space */
   height: 1px;
   background: var(--gold);
 }
@@ -103,10 +90,8 @@ body {
   letter-spacing: 0.5px;
 }
 
-/* ===========================
-   NOTIFICATION BANNER
-   Slides down using CSS transition on max-height
-=========================== */
+/* notification bar that shows messages
+   using max-height trick to animate it sliding open/close */
 .notification {
   background: var(--green);
   color: var(--card);
@@ -117,12 +102,12 @@ body {
   margin-bottom: 20px;
   max-height: 60px;
   overflow: hidden;
-  /* CSS TRANSITION: smoothly animate height and opacity */
+  /* transition for the show/hide animation */
   transition: max-height 0.3s ease, opacity 0.3s ease, margin 0.3s ease;
   opacity: 1;
 }
 
-/* .hidden class collapses the banner */
+/* when hidden class is added it collapses */
 .notification.hidden {
   max-height: 0;
   opacity: 0;
@@ -131,11 +116,9 @@ body {
   padding-bottom: 0;
 }
 
-/* ===========================
-   INPUT ROW
-=========================== */
+/* the input and add button next to each other */
 .input-row {
-  display: flex;           /* Flexbox: input + button side by side */
+  display: flex;           /* side by side layout */
   gap: 0;
   margin-bottom: 16px;
   border: 1px solid var(--border-dark);
@@ -167,7 +150,7 @@ body {
   padding: 13px 20px;
   cursor: pointer;
   text-transform: uppercase;
-  /* CSS TRANSITION: hover effect */
+  /* smooth color change on hover */
   transition: background 0.2s ease;
 }
 
@@ -175,9 +158,7 @@ body {
   background: var(--green-mid, #2d5240);
 }
 
-/* ===========================
-   FILTER ROW
-=========================== */
+/* filter buttons row at the top of the list */
 .filter-row {
   display: flex;
   gap: 8px;
@@ -209,7 +190,7 @@ body {
   border-color: var(--green);
 }
 
-/* Clear done button — right-aligned */
+/* clear button pushed to the right side */
 #clearBtn {
   margin-left: auto;
   background: transparent;
@@ -229,18 +210,14 @@ body {
   color: var(--white);
 }
 
-/* ===========================
-   DIVIDER
-=========================== */
+/* thin line between sections */
 .divider {
   height: 1px;
   background: var(--border);
   margin-bottom: 12px;
 }
 
-/* ===========================
-   STATS LINE
-=========================== */
+/* small text showing how many tasks done etc */
 .stats {
   font-size: 0.78rem;
   color: var(--muted);
@@ -249,9 +226,7 @@ body {
   font-style: italic;
 }
 
-/* ===========================
-   EMPTY MESSAGE
-=========================== */
+/* shows when theres nothing in the list */
 .empty {
   text-align: center;
   color: var(--muted);
@@ -264,24 +239,19 @@ body {
   display: none;
 }
 
-/* ===========================
-   TASK LIST
-=========================== */
+/* remove the default bullet points from ul */
 #taskList {
   list-style: none;
 }
 
-/* ===========================
-   EACH TASK ITEM
-   CSS ANIMATION: slides in from the left
-=========================== */
+/* each task row, slides in when added */
 .task-item {
   display: flex;
   align-items: flex-start;
   gap: 14px;
   padding: 14px 0;
   border-bottom: 1px solid var(--border);
-  /* CSS ANIMATION: plays once when item is added */
+  /* plays the slide animation once when it appears */
   animation: slideIn 0.25s ease forwards;
 }
 
@@ -289,19 +259,19 @@ body {
   border-bottom: none;
 }
 
-/* CSS KEYFRAMES: defines the slide-in motion */
+/* slide in from left animation */
 @keyframes slideIn {
   from {
     opacity: 0;
-    transform: translateX(-16px);  /* starts 16px to the left */
+    transform: translateX(-16px);  /* starts a bit to the left */
   }
   to {
     opacity: 1;
-    transform: translateX(0);      /* ends at normal position */
+    transform: translateX(0);      /* normal position */
   }
 }
 
-/* Slide out to the right when removed */
+/* slide out to the right when deleting */
 @keyframes slideOut {
   from { opacity: 1; transform: translateX(0); }
   to   { opacity: 0; transform: translateX(16px); }
@@ -311,15 +281,13 @@ body {
   animation: slideOut 0.25s ease forwards;
 }
 
-/* Completed task: faded with strikethrough */
+/* completed tasks look faded and crossed out */
 .task-item.completed .task-text {
   text-decoration: line-through;
   color: var(--muted);
 }
 
-/* ===========================
-   CHECKBOX (custom styled)
-=========================== */
+/* custom checkbox, made it myself instead of using the default one */
 .checkbox {
   width: 18px;
   height: 18px;
@@ -332,7 +300,7 @@ body {
   justify-content: center;
   font-size: 11px;
   color: var(--card);
-  /* CSS TRANSITION: smooth fill on check */
+  /* smooth background change when checked */
   transition: background 0.2s ease, border-color 0.2s ease;
 }
 
@@ -345,9 +313,7 @@ body {
   border-color: var(--green);
 }
 
-/* ===========================
-   TASK TEXT
-=========================== */
+/* the actual text of the task */
 .task-text {
   flex: 1;
   font-size: 0.92rem;
@@ -357,9 +323,7 @@ body {
   transition: color 0.2s ease;
 }
 
-/* ===========================
-   DELETE BUTTON
-=========================== */
+/* delete x button on each task */
 .del-btn {
   background: none;
   border: none;
@@ -377,9 +341,7 @@ body {
   color: var(--danger);
 }
 
-/* ===========================
-   RESPONSIVE — Mobile
-=========================== */
+/* mobile styles, stacks input and button vertically on small screens */
 @media (max-width: 480px) {
   .card {
     padding: 28px 22px 36px;
